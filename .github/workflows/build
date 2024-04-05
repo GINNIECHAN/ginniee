@@ -1,36 +1,96 @@
-# This is a basic workflow to help you get started with Actions
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arduino Real-time Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-name: CI
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+        .container {
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+        th {
+            font-weight: bold;
+        }
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+        .normal-text {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        function getCurrentTime() {
+            var currentTime = new Date();
+            return currentTime.toLocaleTimeString();
+        }
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        function getRandomAlcoholValue() {
+            var alcoholValue = Math.floor(Math.random() * 31) + 100;
+            return alcoholValue;
+        }
+
+        function updateTable() {
+            var currentTime = getCurrentTime();
+            var alcoholValue = getRandomAlcoholValue();
+
+            var table = document.getElementById("data-table");
+            var newRow = table.insertRow();
+
+            var timeCell = newRow.insertCell();
+            timeCell.textContent = currentTime;
+
+            var alcoholCell = newRow.insertCell();
+            alcoholCell.textContent = alcoholValue;
+
+            // Remove excess rows to only show the latest data
+            if (table.rows.length > 5) {
+                table.deleteRow(1);
+            }
+
+            var normalText = document.getElementById("normal-text");
+            normalText.style.visibility = "visible";
+        }
+
+        setTimeout(updateTable, 5000);
+    </script>
+</head>
+<body>
+    <h1>Arduino Real-time Data</h1>
+    <div class="container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Alcohol Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="normal-text" id="normal-text">
+            NORMAL
+        </div>
+    </div>
+</body>
+</html>
