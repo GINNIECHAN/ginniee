@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arduino Real-time Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .normal-text {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        function getCurrentTime() {
+            var currentTime = new Date();
+            return currentTime.toLocaleTimeString();
+        }
+
+        function getRandomAlcoholValue() {
+            var alcoholValue = Math.floor(Math.random() * 31) + 100;
+            return alcoholValue;
+        }
+
+        function updateTable() {
+            var currentTime = getCurrentTime();
+            var alcoholValue = getRandomAlcoholValue();
+
+            var table = document.getElementById("data-table");
+            var newRow = table.insertRow();
+
+            var timeCell = newRow.insertCell();
+            timeCell.textContent = currentTime;
+
+            var alcoholCell = newRow.insertCell();
+            alcoholCell.textContent = alcoholValue;
+
+            // Remove excess rows to only show the latest data
+            if (table.rows.length > 5) {
+                table.deleteRow(1);
+            }
+
+            var normalText = document.getElementById("normal-text");
+            normalText.style.visibility = "visible";
+        }
+
+        setTimeout(updateTable, 5000);
+    </script>
+</head>
+<body>
+    <h1>Arduino Real-time Data</h1>
+    <div class="container">
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Alcohol Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div class="normal-text" id="normal-text">
+            NORMAL
+        </div>
+    </div>
+</body>
+</html>
